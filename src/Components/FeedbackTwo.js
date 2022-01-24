@@ -39,13 +39,13 @@ class FeedBackTwo extends React.Component{
                     this.state.value > 0 ? (
                     <div>
                         <table>
-                        <tbody>
-                       <Statics name={"Hyvä"} stats={this.state.counterHy}/>
-                       <Statics name={"Neutraali"} stats={this.state.counterNe}/>
-                       <Statics name={"Huono"} stats={this.state.counterHu}/>
-                       <Statistic name={"Keskiarvo"} estadisticas={this.keskiarvo()}/>
-                       <Statistic name={"Positiivisia"} estadisticas={this.positiivisia()}/>
-                       </tbody>
+                           <tbody>
+                             <Statics name={"Hyvä"} stats={this.state.counterHy}/>
+                             <Statics name={"Neutraali"} stats={this.state.counterNe}/>
+                             <Statics name={"Huono"} stats={this.state.counterHu}/>
+                             <Statistic name={"Keskiarvo"} estadisticas={this.keskiarvo()}/>
+                             <Statistic name={"Positiivisia"} estadisticas={this.positiivisia()}/>
+                          </tbody>
                        </table>
                     </div>
                     ) : (
