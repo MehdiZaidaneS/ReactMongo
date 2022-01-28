@@ -10,30 +10,39 @@ class Reminder extends React.Component {
           timestamp: "2018-11-10T13:00:00.141Z"
         }
       ],
-      newName: ''
+      newName: '',
+      newTime: ""
     }
   }
  
+
    addName = (event) =>{
        event.preventDefault()
        console.log("nappia painettu")
        const nameObject = {
         name: this.state.newName,
-        timestamp: new Date().toISOString(),
-      }
+        timestamp: this.state.newTime,
+      } 
 
-      const reminderss = this.state.reminders.concat(nameObject)
-       
-      this.state.reminders.map(reminder => 
-        this.state.newName === reminder.name ?
-        this.setState({newName:''})  (alert("Stop")):
-            this.setState({
-               reminders: reminderss,
-               newName: ''
-            })
-        )
-   }
-
+  
+      let reminderss = this.state.reminders.concat(nameObject);
+      this.setState({
+        reminders: reminderss,
+        newName: "",
+        newTime: ""
+      })
+/*
+       this.state.reminders.map(reminder => {
+          this.state.newName === reminder.name ?
+          (alert("You already have it")):
+        this.setState({
+          reminders: reminderss,
+          newName: "",
+          newTime: ""
+        })
+    })
+*/
+}
    
 
    handleNameChange = (event) => {
@@ -41,28 +50,38 @@ class Reminder extends React.Component {
        this.setState({newName: event.target.value})
    }
 
+   handleTimeChange = (event) =>{
+     this.setState({newTime: event.target.value})
+   }
+
   render() {
+     
     return (
       <div>
          <p>--------------------------</p>
          <h2>Add Reminder</h2>
+         
          <form onSubmit={this.addName}>
           <div>
             Topic: <input value={this.state.newName} onChange={this.handleNameChange} />
           </div>
+
+          <div>
+            Time: <input value={this.state.newTime} onChange={this.handleTimeChange} />
+          </div>
+            
           <div>
             <button type="submit">Add</button>
           </div>
         </form>
 
         <h2>Reminders</h2>
-        {this.state.reminders.map(reminder => <p>{reminder.name}</p>)}
-        
-        <h2>At time:</h2>
-        ...
-        <div>
-            debug: {this.state.newName}
-        </div>
+        {this.state.reminders.map(reminder => { return (
+             <div>
+               <p>{reminder.timestamp} {reminder.name}</p>
+             </div>  
+        )})}
+      
       </div>
       
     )
