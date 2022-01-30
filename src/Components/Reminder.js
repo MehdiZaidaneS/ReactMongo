@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class Reminder extends React.Component {
   constructor(props) {
     super(props)
@@ -24,24 +25,18 @@ class Reminder extends React.Component {
         timestamp: this.state.newTime,
       } 
 
-  
-      let reminderss = this.state.reminders.concat(nameObject);
-      this.setState({
-        reminders: reminderss,
-        newName: "",
-        newTime: ""
-      })
-/*
-       this.state.reminders.map(reminder => {
-          this.state.newName === reminder.name ?
-          (alert("You already have it")):
+      let reminderss = this.state.reminders.concat(nameObject)
+
+      this.state.reminders.map(reminder => 
+        reminder.name === this.state.newName ?
+        reminderss.pop() :
         this.setState({
           reminders: reminderss,
           newName: "",
           newTime: ""
         })
-    })
-*/
+        )
+
 }
    
 
@@ -55,13 +50,15 @@ class Reminder extends React.Component {
    }
 
   render() {
-     
+    
+
     return (
       <div>
          <p>--------------------------</p>
          <h2>Add Reminder</h2>
          
          <form onSubmit={this.addName}>
+           
           <div>
             Topic: <input value={this.state.newName} onChange={this.handleNameChange} />
           </div>
@@ -73,6 +70,7 @@ class Reminder extends React.Component {
           <div>
             <button type="submit">Add</button>
           </div>
+
         </form>
 
         <h2>Reminders</h2>
