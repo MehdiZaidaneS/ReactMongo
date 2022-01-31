@@ -1,21 +1,26 @@
 import React from 'react';
+import axios from "axios"
+import reminderService from "./services/reminders"
 
 
 class Reminder extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      reminders: [
-        {
-          name: 'Buy some eggs',
-          timestamp: "2018-11-10T13:00:00.141Z"
-        }
-      ],
+      reminders: [],
       newName: '',
       newTime: ""
     }
   }
- 
+
+  componentDidMount() {
+    console.log('did mount')
+    reminderService
+      .getAll()
+      .then(reminders => {
+        this.setState({ reminders })
+      })
+  }
 
    addName = (event) =>{
        event.preventDefault()
@@ -25,17 +30,16 @@ class Reminder extends React.Component {
         timestamp: this.state.newTime,
       } 
 
-      let reminderss = this.state.reminders.concat(nameObject)
 
-      this.state.reminders.map(reminder => 
-        reminder.name === this.state.newName ?
-        reminderss.pop() :
-        this.setState({
-          reminders: reminderss,
-          newName: "",
-          newTime: ""
-        })
-        )
+    axios
+    .post('http://localhost:3001/reminders', nameObject)
+    .then(response => {
+      this.setState({
+        reminders: this.state.reminders.concat(response.data),
+        newName: '',
+        newTime: ""
+      })
+    })
 
 }
    
@@ -48,6 +52,23 @@ class Reminder extends React.Component {
    handleTimeChange = (event) =>{
      this.setState({newTime: event.target.value})
    }
+
+
+   deleteReminder = (id) => {
+    return() => {
+    const url = `http://localhost:3001/reminders/${id}`
+
+    window.confirm("Do you really want to remove it") ?
+     axios
+     .delete(url)
+     (reminderService
+      .getAll()
+      .then(reminders => {
+        this.setState({ reminders })
+      })):
+     alert("You didnt delelte!");
+   } 
+  }
 
   render() {
     
@@ -76,7 +97,7 @@ class Reminder extends React.Component {
         <h2>Reminders</h2>
         {this.state.reminders.map(reminder => { return (
              <div>
-               <p>{reminder.timestamp} {reminder.name}</p>
+               <p>{reminder.timestamp} {reminder.name} <button onClick={this.deleteReminder(reminder.id)}>Delete</button></p>
              </div>  
         )})}
       
