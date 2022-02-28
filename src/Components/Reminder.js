@@ -3,6 +3,7 @@ import axios from "axios"
 import reminderService from "./services/reminders"
 
 
+
 class Reminder extends React.Component {
   constructor(props) {
     super(props)
@@ -32,7 +33,7 @@ class Reminder extends React.Component {
 
 
     axios
-    .post('http://localhost:3001/reminders', nameObject)
+    .post('http://localhost:3001/api/reminders', nameObject)
     .then(response => {
       this.setState({
         reminders: this.state.reminders.concat(response.data),
@@ -56,7 +57,7 @@ class Reminder extends React.Component {
 
    deleteReminder = (id) => {
     return() => {
-    const url = `http://localhost:3001/reminders/${id}`
+    const url = `http://localhost:3001/api/reminders/${id}`
 
     window.confirm("Do you really want to remove it") ?
      axios
@@ -96,7 +97,7 @@ class Reminder extends React.Component {
 
         <h2>Reminders</h2>
         {this.state.reminders.map(reminder => { return (
-             <div>
+             <div key={reminder.id}>
                <p>{reminder.timestamp} {reminder.name} <button onClick={this.deleteReminder(reminder.id)}>Delete</button></p>
              </div>  
         )})}
